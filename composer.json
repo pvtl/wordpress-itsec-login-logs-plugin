@@ -1,0 +1,17 @@
+{
+  "name": "pvtl/itsec-login-logs",
+  "description": "Adds a log entry into the iThemes Security (free) logs, for each successful user login.",
+  "homepage": "https://github.com/pvtl/wordpress-itsec-login-logs-plugin",
+  "license": "Private",
+  "authors": [
+    {
+      "name": "Matt McNamee",
+      "email": "matt.m@pvtl.io",
+      "homepage": "https://www.pivotalagency.com.au/"
+    }
+  ],
+  "type": "wordpress-muplugin",
+  "require": {
+    "php": ">=7.3"
+  }
+}
