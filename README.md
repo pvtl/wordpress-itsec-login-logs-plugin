@@ -9,7 +9,7 @@ Adds an entry into the iThemes Security (free) logs (notices), for each successf
 composer config repositories.pvtl-itsec-login-logs git https://github.com/pvtl/wordpress-itsec-login-logs-plugin
 
 # 2. Install the Plugin - we want all updates from this major version (while non-breaking)
-composer require "pvtl/itsec-login-logs:~1.0"
+composer require "pvtl/pvtl-itsec-login-logs:~1.0"
 ```
 
 ## Versioning
