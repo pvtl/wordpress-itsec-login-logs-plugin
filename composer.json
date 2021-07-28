@@ -12,6 +12,8 @@
   ],
   "type": "wordpress-muplugin",
   "require": {
-    "php": ">=7.3"
+    "php": ">=7.3",
+    "pvtl/pvtl-sso": ">=1.1.8",
+    "wpackagist-plugin/better-wp-security": "^7.0"
   }
 }
