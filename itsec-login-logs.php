@@ -7,7 +7,7 @@
  * Author URI:   https://pvtl.io/
  * Text Domain:  pvtl-itsec-login-logs
  * Domain Path:  /languages
- * Version:      1.0.3
+ * Version:      1.0.4
  * License:      MIT License
  *
  * @package      PVTL_ITSEC_Logs
@@ -19,8 +19,14 @@
  * @param null|WP_User|WP_Error $user - the user object if successful.
  */
 function pvtl_itsec_log_logins( $user ) {
-	// iThemes Security plugin doesn't exist or isn't active, so don't continue.
-	if ( ! class_exists( 'ITSEC_Log' ) ) {
+	// Confirm that the iThemes Security plugin exists, is active and the version supports what's needed.
+	if (
+		! class_exists( 'ITSEC_Log' )
+		|| ! class_exists( 'ITSEC_Lib' )
+		|| ! method_exists( 'ITSEC_Log', 'add_notice' )
+		|| ! method_exists( 'ITSEC_Lib', 'get_login_details' )
+		|| ! method_exists( 'ITSEC_Lib', 'get_server_snapshot' )
+	) {
 		return $user;
 	}
 
