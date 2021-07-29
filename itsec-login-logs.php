@@ -7,7 +7,7 @@
  * Author URI:   https://pvtl.io/
  * Text Domain:  pvtl-itsec-login-logs
  * Domain Path:  /languages
- * Version:      1.0.4
+ * Version:      1.0.5
  * License:      MIT License
  *
  * @package      PVTL_ITSEC_Logs
@@ -39,15 +39,19 @@ function pvtl_itsec_log_logins( $user ) {
 	try {
 		ITSEC_Log::add_notice(
 			'Login', // 'user_logging', // Module.
-			'User successfully logged in', // "user-logged-in::user-{$user->id}", // Code.
+			'User successfully logged in', // "user-logged-in::user-{$user->ID}", // Code.
 			array(
 				'details'  => ITSEC_Lib::get_login_details(),
 				'user'     => $user,
 				'username' => $user->user_login,
-				'user_id'  => $user->id,
+				'user_id'  => $user->ID,
 				'SERVER'   => ITSEC_Lib::get_server_snapshot(),
 			),
-			array( 'user_id' => $user->id ) // Overrides.
+			array(
+				'user_id' => $user->ID,
+				// URL without query params - which can expose the likes of SSO tokens.
+				'url' => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . explode( '?', $_SERVER['REQUEST_URI'], 2 )[0],
+			), // Overrides.
 		);
 	} catch ( Exception $e ) {
 		// Ignore - likely the iThemes Security plugin has just changed.
