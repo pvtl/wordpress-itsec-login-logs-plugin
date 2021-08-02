@@ -7,7 +7,7 @@
  * Author URI:   https://pvtl.io/
  * Text Domain:  pvtl-itsec-login-logs
  * Domain Path:  /languages
- * Version:      1.0.7
+ * Version:      1.0.8
  * License:      MIT License
  *
  * @package      PVTL_ITSEC_Logs
@@ -51,7 +51,7 @@ function pvtl_itsec_log_logins( $user ) {
 				'user_id' => $user->ID,
 				// URL without query params - which can expose the likes of SSO tokens.
 				'url' => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . explode( '?', $_SERVER['REQUEST_URI'], 2 )[0],
-			), // Overrides.
+			) // Overrides.
 		);
 	} catch ( Exception $e ) {
 		// Ignore - likely the iThemes Security plugin has just changed.
