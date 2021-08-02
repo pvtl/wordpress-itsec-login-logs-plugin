@@ -7,7 +7,7 @@
  * Author URI:   https://pvtl.io/
  * Text Domain:  pvtl-itsec-login-logs
  * Domain Path:  /languages
- * Version:      1.0.6
+ * Version:      1.0.7
  * License:      MIT License
  *
  * @package      PVTL_ITSEC_Logs
@@ -51,7 +51,7 @@ function pvtl_itsec_log_logins( $user ) {
 				'user_id' => $user->ID,
 				// URL without query params - which can expose the likes of SSO tokens.
 				'url' => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . explode( '?', $_SERVER['REQUEST_URI'], 2 )[0],
-			) // Overrides.
+			), // Overrides.
 		);
 	} catch ( Exception $e ) {
 		// Ignore - likely the iThemes Security plugin has just changed.
@@ -63,3 +63,18 @@ function pvtl_itsec_log_logins( $user ) {
 }
 
 add_action( 'authenticate', 'pvtl_itsec_log_logins', 99, 1 );
+
+/**
+ * Reduce the time in which a user remains logged in.
+ * By making a user log in once every X mins (and therefore logging each login), it increases the
+ * validity of our logs - i.e. we can more accurately determine:
+ * eg. User: X logged in with IP: Y, within 90mins of this action being taken - it was more than likely User: X
+ *
+ * @return int
+ */
+function pvtl_cookie_expiration() {
+	return ( 60 /* seconds */ * 90 /* minutes */ );
+}
+
+add_filter( 'auth_cookie_expiration', 'pvtl_cookie_expiration', 99 );
+
