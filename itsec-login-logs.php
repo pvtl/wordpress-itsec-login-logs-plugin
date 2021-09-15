@@ -7,11 +7,26 @@
  * Author URI:   https://pvtl.io/
  * Text Domain:  pvtl-itsec-login-logs
  * Domain Path:  /languages
- * Version:      1.0.8
+ * Version:      1.0.9
  * License:      MIT License
  *
  * @package      PVTL_ITSEC_Logs
  */
+
+/**
+ * Check if ITSec is enabled
+ *
+ * @return bool
+ */
+function pvtl_itsec_is_enabled() {
+	return (
+		class_exists( 'ITSEC_Log' )
+		&& class_exists( 'ITSEC_Lib' )
+		&& method_exists( 'ITSEC_Log', 'add_notice' )
+		&& method_exists( 'ITSEC_Lib', 'get_login_details' )
+		&& method_exists( 'ITSEC_Lib', 'get_server_snapshot' )
+	) ? true : false;
+}
 
 /**
  * Log the successful login
@@ -19,18 +34,13 @@
  * @param null|WP_User|WP_Error $user - the user object if successful.
  */
 function pvtl_itsec_log_logins( $user ) {
-	// Confirm that the iThemes Security plugin exists, is active and the version supports what's needed.
-	if (
-		! class_exists( 'ITSEC_Log' )
-		|| ! class_exists( 'ITSEC_Lib' )
-		|| ! method_exists( 'ITSEC_Log', 'add_notice' )
-		|| ! method_exists( 'ITSEC_Lib', 'get_login_details' )
-		|| ! method_exists( 'ITSEC_Lib', 'get_server_snapshot' )
-	) {
+	// Only continue when ITSec plugin is enabled.
+	if ( ! pvtl_itsec_is_enabled() ) {
 		return $user;
 	}
 
 	// Login wasn't attempted or wasn't successful - so don't continue.
+	// Note that unsuccessful logins are logged elsewhere.
 	if ( null === $user || is_wp_error( $user ) ) {
 		return $user;
 	}
@@ -70,11 +80,11 @@ add_action( 'authenticate', 'pvtl_itsec_log_logins', 99, 1 );
  * validity of our logs - i.e. we can more accurately determine:
  * eg. User: X logged in with IP: Y, within 90mins of this action being taken - it was more than likely User: X
  *
+ * @param int $length - the WP-defined default login length (14 days).
  * @return int
  */
-function pvtl_cookie_expiration() {
-	return ( 60 /* seconds */ * 90 /* minutes */ );
+function pvtl_cookie_expiration( $length ) {
+	return ( pvtl_itsec_is_enabled() ) ? ( 60 /* seconds */ * 0.5 /* minutes */ ) : $length;
 }
 
 add_filter( 'auth_cookie_expiration', 'pvtl_cookie_expiration', 99 );
-
