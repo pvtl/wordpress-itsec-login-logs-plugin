@@ -7,7 +7,7 @@
  * Author URI:   https://pvtl.io/
  * Text Domain:  pvtl-itsec-login-logs
  * Domain Path:  /languages
- * Version:      1.0.10
+ * Version:      1.1.0
  * License:      MIT License
  *
  * @package      PVTL_ITSEC_Logs
@@ -84,7 +84,7 @@ add_action( 'authenticate', 'pvtl_itsec_log_logins', 99, 1 );
  * @return int
  */
 function pvtl_cookie_expiration( $length ) {
-	return ( pvtl_itsec_is_enabled() ) ? ( 60 /* seconds */ * 90 /* minutes */ ) : $length;
+	return ( pvtl_itsec_is_enabled() ) ? ( 60 /* seconds */ * 60 /* minutes */ * 8 /* hours */ ) : $length;
 }
 
 add_filter( 'auth_cookie_expiration', 'pvtl_cookie_expiration', 99 );
