@@ -14,6 +14,6 @@
   "require": {
     "php": ">=7.3",
     "pvtl/pvtl-sso": ">=1.1.8",
-    "wpackagist-plugin/better-wp-security": ">=7.9"
+    "wpackagist-plugin/better-wp-security": ">=9.0.1"
   }
 }

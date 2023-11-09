@@ -7,7 +7,7 @@
  * Author URI:   https://pvtl.io/
  * Text Domain:  pvtl-itsec-login-logs
  * Domain Path:  /languages
- * Version:      1.1.0
+ * Version:      1.2.0
  * License:      MIT License
  *
  * @package      PVTL_ITSEC_Logs
