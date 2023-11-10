@@ -18,6 +18,8 @@ composer require "pvtl/pvtl-itsec-login-logs:~1.0"
 
 _Do not manually create tags_.
 
+To release a new version, simply change the `* Version: x.x.x` (line 10) in `./itsec-login-logs.php` - the Github Action will take care of the rest.
+
 Versioning comprises of 2 things:
 
 - Wordpress plugin version
@@ -28,4 +30,3 @@ Versioning comprises of 2 things:
     - Controlled by Git tags
 
 Versioning for this plugin is automated using a Github Action (`./.github/workflows/version-update.yml`).
-To release a new version, simply change the `* Version: x.x.x` (line 10) in `./itsec-login-logs.php` - the Github Action will take care of the rest.
