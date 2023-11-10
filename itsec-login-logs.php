@@ -47,6 +47,10 @@ function pvtl_itsec_log_logins( $user ) {
 
 	// Login was successful - log it.
 	try {
+		$request_scheme = ( ! empty( $_SERVER['REQUEST_SCHEME'] ) ) ? sanitize_text_field( $_SERVER['REQUEST_SCHEME'] ) : 'http';
+		$http_host = ( ! empty( $_SERVER['HTTP_HOST'] ) ) ? sanitize_text_field( $_SERVER['HTTP_HOST'] ) : 'localhost';
+		$request_uri = ( ! empty( $_SERVER['REQUEST_URI'] ) ) ? explode( '?', sanitize_text_field( $_SERVER['REQUEST_URI'] ), 2 )[0] : '/';
+
 		ITSEC_Log::add_notice(
 			'Login', // 'user_logging', // Module.
 			'User successfully logged in', // "user-logged-in::user-{$user->ID}", // Code.
@@ -60,7 +64,7 @@ function pvtl_itsec_log_logins( $user ) {
 			array(
 				'user_id' => $user->ID,
 				// URL without query params - which can expose the likes of SSO tokens.
-				'url' => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . explode( '?', $_SERVER['REQUEST_URI'], 2 )[0],
+				'url' => "{$request_scheme}://{$http_host}{$request_uri}",
 			) // Overrides.
 		);
 	} catch ( Exception $e ) {
@@ -84,7 +88,7 @@ add_action( 'authenticate', 'pvtl_itsec_log_logins', 99, 1 );
  * @return int
  */
 function pvtl_cookie_expiration( $length ) {
-	return ( pvtl_itsec_is_enabled() ) ? ( 60 /* seconds */ * 60 /* minutes */ * 8 /* hours */ ) : $length;
+	return ( pvtl_itsec_is_enabled() ) ? ( 8 * HOUR_IN_SECONDS ) : $length;
 }
 
 add_filter( 'auth_cookie_expiration', 'pvtl_cookie_expiration', 99 );

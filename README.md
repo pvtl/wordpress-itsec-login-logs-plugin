@@ -2,6 +2,7 @@
 
 Adds an entry into the iThemes Security (free) logs (notices), for each successful user login.
 
+
 ## Installation
 
 ```bash
@@ -11,6 +12,7 @@ composer config repositories.pvtl-itsec-login-logs git https://github.com/pvtl/w
 # 2. Install the Plugin - we want all updates from this major version (while non-breaking)
 composer require "pvtl/pvtl-itsec-login-logs:~1.0"
 ```
+
 
 ## Versioning
 

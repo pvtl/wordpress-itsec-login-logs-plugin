@@ -3,13 +3,14 @@ name: Update WP plugin version to match Git tag
 on: push
 
 jobs:
-    tag-new-versions:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-          with:
-            fetch-depth: 2
-        - uses: salsify/action-detect-and-tag-new-version@v2
-          with:
-            version-command: |
-              grep "Version: " itsec-login-logs.php | sed -e 's/^.*Version: *//'
+  tag-new-versions:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: salsify/action-detect-and-tag-new-version@v2
+        with:
+          version-command: |
+            grep "Version: " itsec-login-logs.php | sed -e 's/^.*Version: *//'
